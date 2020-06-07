@@ -1,13 +1,15 @@
 // webpack v4
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+const { VueLoaderPlugin } = require('vue-loader')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     entry: './src/index.ts',
     output: {
-        path: path.resolve(__dirname, 'dist'),
+        path: path.resolve(__dirname, './../dist'),
         filename: '[name].[contenthash].js'
     },
     target: "web",
@@ -18,6 +20,13 @@ module.exports = {
         }),
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),
+        new UglifyJSPlugin({
+          uglifyOptions: {
+            compress: {
+              drop_console: false
+            }
+          }
+        })
     ],
     module: {
         rules: [
@@ -36,6 +45,10 @@ module.exports = {
                 options: {
                     appendTsSuffixTo: [/\.vue$/],
                 }
+            },
+            {
+              test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+              loader: 'url-loader?limit=1024'
             },
         ],
     },
