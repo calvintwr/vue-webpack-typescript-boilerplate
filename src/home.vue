@@ -13,12 +13,12 @@
 
 <script lang="ts">
 import Vue from "vue";
-export default Vue.extend({
+export default {
     name: 'HomePage',
     data() {
         return {
             message: 'Hello Vue from TypeScript!',
         }
     }
-});
+}
 </script>
